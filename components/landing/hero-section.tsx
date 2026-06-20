@@ -34,8 +34,9 @@ export function HeroSection() {
       <div className="absolute right-[-12%] top-1/2 hidden h-[680px] w-[680px] -translate-y-1/2 lg:block">
         <ServiceModel
           url="/models/modern-toilet.glb"
-          label="Slowly rotating modern toilet model"
-          scale={1.45}
+          label="Modern toilet — drag to rotate"
+          targetSize={2.6}
+          interactive
           rotationSpeed={0.18}
           className="h-full w-full opacity-95"
         />

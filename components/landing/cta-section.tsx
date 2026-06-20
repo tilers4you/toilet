@@ -72,8 +72,12 @@ export function CtaSection() {
               <div className="hidden lg:flex items-center justify-center w-[460px] h-[460px] -mr-10">
                 <ServiceModel
                   url="/models/plumber-wrench.glb"
-                  label="Slowly rotating plumber wrench model"
-                  scale={1.25}
+                  label="Pipe wrench"
+                  targetSize={2.4}
+                  fit="max"
+                  centerY
+                  interactive
+                  cameraZ={4.8}
                   rotationSpeed={0.22}
                   className="h-full w-full"
                 />

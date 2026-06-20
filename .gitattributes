@@ -1,1 +1,4 @@
 *.glb filter=lfs diff=lfs merge=lfs -text
+# Optimized 3D models in public/models are small (2.4–3.3 MB) and must ship as
+# plain bytes so they deploy without an LFS fetch. Exclude them from LFS.
+public/models/*.glb !filter !diff !merge -text
