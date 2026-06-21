@@ -15,7 +15,7 @@
  * existing usages keep working.
  */
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
-import { Suspense, useEffect, useMemo, useRef } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Box3, Group, Vector3 } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { configureGLTFLoader } from "@/lib/model-loader";
@@ -49,10 +49,17 @@ function Model({
   rotationSpeed = 0.25,
   interactive = false,
   faceYaw,
-}: Omit<ServiceModelProps, "label" | "className">) {
+  onLoaded,
+}: Omit<ServiceModelProps, "label" | "className"> & { onLoaded?: () => void }) {
   const groupRef = useRef<Group>(null);
   const gl = useThree((s) => s.gl);
   const gltf = useLoader(GLTFLoader, url, configureGLTFLoader(gl));
+
+  // This component only mounts once useLoader has resolved the model, so the
+  // model is decoded and ready here — tell the parent to drop the placeholder.
+  useEffect(() => {
+    onLoaded?.();
+  }, [onLoaded]);
 
   // auto-frame once the model is available
   const { scale, offset } = useMemo(() => {
@@ -148,24 +155,52 @@ export function ServiceModel(props: ServiceModelProps) {
     cameraY = 0.6,
     interactive = false,
   } = props;
+  const [loaded, setLoaded] = useState(false);
+  // Mobile/perf: don't mount the Canvas (and don't fetch the ~2-3 MB model)
+  // until the section is near the viewport, and pause the render loop whenever
+  // the canvas is offscreen. This stops several always-on WebGL loops from
+  // pegging the main thread on phones.
+  const hostRef = useRef<HTMLDivElement>(null);
+  const [activated, setActivated] = useState(false); // mount once near viewport
+  const [inView, setInView] = useState(false);       // currently visible -> render
+  useEffect(() => {
+    const el = hostRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") {
+      setActivated(true);
+      setInView(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        setInView(entry.isIntersecting);
+        if (entry.isIntersecting) setActivated(true);
+      },
+      { rootMargin: "200px 0px", threshold: 0.01 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
   return (
-    <div className={`relative ${className}`} aria-label={label} role="img">
-      <Fallback label={label} />
-      <Canvas
-        camera={{ position: [0, cameraY, cameraZ], fov: 35 }}
-        dpr={[1, 2]}
-        gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
-        style={{ cursor: interactive ? "grab" : "default", touchAction: "pan-y" }}
-      >
-        <ambientLight intensity={1.4} />
-        <hemisphereLight intensity={0.5} groundColor={0x3d5f6e} />
-        <directionalLight position={[3.5, 5, 4]} intensity={1.7} />
-        <directionalLight position={[-4.5, 2.5, -3]} intensity={1.1} color={0x33c0a0} />
-        <directionalLight position={[-2.5, 1, 4.5]} intensity={0.5} color={0xbfe6ff} />
-        <Suspense fallback={null}>
-          <Model {...props} />
-        </Suspense>
-      </Canvas>
+    <div ref={hostRef} className={`relative ${className}`} aria-label={label} role="img">
+      {!loaded && <Fallback label={label} />}
+      {activated && (
+        <Canvas
+          frameloop={inView ? "always" : "demand"}
+          camera={{ position: [0, cameraY, cameraZ], fov: 35 }}
+          dpr={[1, 2]}
+          gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+          style={{ cursor: interactive ? "grab" : "default", touchAction: "pan-y" }}
+        >
+          <ambientLight intensity={1.4} />
+          <hemisphereLight intensity={0.5} groundColor={0x3d5f6e} />
+          <directionalLight position={[3.5, 5, 4]} intensity={1.7} />
+          <directionalLight position={[-4.5, 2.5, -3]} intensity={1.1} color={0x33c0a0} />
+          <directionalLight position={[-2.5, 1, 4.5]} intensity={0.5} color={0xbfe6ff} />
+          <Suspense fallback={null}>
+            <Model {...props} onLoaded={() => setLoaded(true)} />
+          </Suspense>
+        </Canvas>
+      )}
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, Phone, X } from "lucide-react";
+import { useLead } from "@/components/lead/lead-provider";
 
 const navLinks = [
   { name: "Services", href: "#features" },
@@ -14,6 +15,7 @@ const navLinks = [
 ];
 
 export function Navigation() {
+  const { open } = useLead();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -52,11 +54,11 @@ export function Navigation() {
           </div>
 
           <div className="hidden md:flex items-center gap-3">
-            <a href="tel:+17205550198" className={`inline-flex items-center gap-2 text-foreground/70 hover:text-foreground transition-all duration-500 ${isScrolled ? "text-xs" : "text-sm"}`}>
+            <a href="tel:+17207173990" className={`inline-flex items-center gap-2 text-foreground/70 hover:text-foreground transition-all duration-500 ${isScrolled ? "text-xs" : "text-sm"}`}>
               <Phone className="h-4 w-4" />
-              (720) 555-0198
+              (720) 717-3990
             </a>
-            <Button size="sm" className={`bg-primary hover:bg-primary/90 text-primary-foreground rounded-full transition-all duration-500 ${isScrolled ? "px-4 h-8 text-xs" : "px-6"}`}>
+            <Button onClick={() => open("Navigation — Request service")} size="sm" className={`bg-primary hover:bg-primary/90 text-primary-foreground rounded-full transition-all duration-500 ${isScrolled ? "px-4 h-8 text-xs" : "px-6"}`}>
               Request service
             </Button>
           </div>
@@ -96,11 +98,19 @@ export function Navigation() {
             }`}
             style={{ transitionDelay: isMobileMenuOpen ? "300ms" : "0ms" }}
           >
-            <Button variant="outline" className="flex-1 rounded-full h-14 text-base" onClick={() => setIsMobileMenuOpen(false)}>
-              <Phone className="h-4 w-4 mr-2" />
-              Call
+            <Button asChild variant="outline" className="flex-1 rounded-full h-14 text-base" onClick={() => setIsMobileMenuOpen(false)}>
+              <a href="tel:+17207173990">
+                <Phone className="h-4 w-4 mr-2" />
+                Call
+              </a>
             </Button>
-            <Button className="flex-1 bg-primary text-primary-foreground rounded-full h-14 text-base" onClick={() => setIsMobileMenuOpen(false)}>
+            <Button
+              className="flex-1 bg-primary text-primary-foreground rounded-full h-14 text-base"
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                open("Navigation (mobile) — Request service");
+              }}
+            >
               Request service
             </Button>
           </div>

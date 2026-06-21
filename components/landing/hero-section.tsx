@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle2, Phone, ShieldCheck } from "lucide-react";
 import { ServiceModel } from "./service-model";
+import { useLead } from "@/components/lead/lead-provider";
 
 const words = ["replacement", "installation", "repair", "leak fixes"];
 
@@ -15,6 +16,7 @@ const heroStats = [
 ];
 
 export function HeroSection() {
+  const { open } = useLead();
   const [isVisible, setIsVisible] = useState(false);
   const [wordIndex, setWordIndex] = useState(0);
 
@@ -31,7 +33,7 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex flex-col justify-center overflow-hidden">
-      <div className="absolute right-[-12%] top-1/2 hidden h-[680px] w-[680px] -translate-y-1/2 lg:block">
+      <div className="absolute right-[-2%] xl:right-[2%] top-1/2 hidden h-[min(620px,72vh)] w-[min(620px,46vw)] -translate-y-1/2 lg:block">
         <ServiceModel
           url="/models/modern-toilet.glb"
           label="Modern toilet — drag to rotate"
@@ -146,18 +148,17 @@ export function HeroSection() {
                 </div>
               </div>
               <div className="mt-5 flex flex-col gap-3">
-                <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 h-14 text-base rounded-full group">
+                <Button onClick={() => open("Hero — Request service")} size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 h-14 text-base rounded-full group">
                   Request service
                   <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
                 </Button>
-                <Button size="lg" variant="outline" className="h-14 px-8 text-base rounded-full border-foreground/20 hover:bg-foreground/5">
-                  <Phone className="w-4 h-4 mr-2" />
-                  Call (720) 555-0198
+                <Button asChild size="lg" variant="outline" className="h-14 px-8 text-base rounded-full border-foreground/20 hover:bg-foreground/5">
+                  <a href="tel:+17207173990">
+                    <Phone className="w-4 h-4 mr-2" />
+                    Call (720) 717-3990
+                  </a>
                 </Button>
               </div>
-              <p className="mt-4 text-xs text-muted-foreground">
-                Replace this placeholder with the real Denver business phone before launch.
-              </p>
             </div>
           </div>
         </div>

@@ -9,6 +9,7 @@ import { PricingSection } from "@/components/landing/pricing-section";
 import { FaqSection } from "@/components/landing/faq-section";
 import { CtaSection } from "@/components/landing/cta-section";
 import { FooterSection } from "@/components/landing/footer-section";
+import { MobileStickyCta } from "@/components/landing/mobile-sticky-cta";
 
 export default function Home() {
   const jsonLd = {
@@ -19,7 +20,7 @@ export default function Home() {
         "@id": "https://denvertoiletpros.com/#business",
         name: "Denver Toilet Pros",
         url: "https://denvertoiletpros.com/",
-        telephone: "+1-720-555-0198",
+        telephone: "+1-720-717-3990",
         priceRange: "$$",
         areaServed: [
           { "@type": "City", name: "Denver", addressRegion: "CO", addressCountry: "US" },
@@ -80,6 +81,7 @@ export default function Home() {
       <FaqSection />
       <CtaSection />
       <FooterSection />
+      <MobileStickyCta />
     </main>
   );
 }

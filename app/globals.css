@@ -183,9 +183,23 @@
   
   .border-sketch {
     border: 1px solid transparent;
-    background: 
+    background:
       linear-gradient(var(--background), var(--background)) padding-box,
       linear-gradient(135deg, var(--foreground) 25%, transparent 25%, transparent 50%, var(--foreground) 50%, var(--foreground) 75%, transparent 75%) border-box;
     background-size: 100% 100%, 8px 8px;
+  }
+
+  /* Pricing CTA buttons: very light brand-colored glow + gentle hover lift. */
+  .pricing-cta--primary {
+    box-shadow: 0 8px 24px -12px color-mix(in oklch, var(--primary) 50%, transparent);
+  }
+  .pricing-cta--primary:hover {
+    box-shadow: 0 12px 30px -10px color-mix(in oklch, var(--primary) 65%, transparent);
+  }
+  .pricing-cta--ghost {
+    box-shadow: 0 4px 18px -14px color-mix(in oklch, var(--primary) 28%, transparent);
+  }
+  .pricing-cta--ghost:hover {
+    box-shadow: 0 10px 26px -12px color-mix(in oklch, var(--primary) 42%, transparent);
   }
 }

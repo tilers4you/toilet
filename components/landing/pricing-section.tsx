@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowRight, Check } from "lucide-react";
+import { useLead } from "@/components/lead/lead-provider";
 
 const serviceOptions = [
   {
@@ -56,6 +57,7 @@ const costFactors = [
 ];
 
 export function PricingSection() {
+  const { open } = useLead();
   return (
     <section id="pricing" className="relative py-32 lg:py-40 border-t border-foreground/10">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
@@ -99,7 +101,11 @@ export function PricingSection() {
                 ))}
               </ul>
 
-              <button className={`w-full py-4 flex items-center justify-center gap-2 text-sm font-medium transition-all group ${option.popular ? "bg-primary text-primary-foreground hover:bg-primary/90" : "border border-foreground/20 text-foreground hover:border-primary hover:bg-primary/[0.04]"}`}>
+              <button
+                type="button"
+                onClick={() => open(`${option.name} — ${option.cta}`)}
+                className={`w-full py-4 flex items-center justify-center gap-2 text-sm font-medium rounded-xl transition-all duration-300 hover:-translate-y-0.5 group ${option.popular ? "pricing-cta--primary bg-primary text-primary-foreground hover:bg-primary/90" : "pricing-cta--ghost border border-foreground/20 text-foreground hover:border-primary hover:bg-primary/[0.04]"}`}
+              >
                 {option.cta}
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </button>

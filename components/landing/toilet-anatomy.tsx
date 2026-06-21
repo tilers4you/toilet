@@ -52,12 +52,12 @@ export function ToiletAnatomy() {
             <ServiceModel
               url="/models/toilet-tank-cutaway.glb"
               label="Toilet tank cutaway"
-              targetSize={1.7}
+              targetSize={2.5}
               fit="max"
               centerY
               interactive
               faceYaw={active?.yaw}
-              cameraZ={6}
+              cameraZ={4.4}
               cameraY={0}
               className="h-full w-full absolute inset-0"
             />

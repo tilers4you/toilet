@@ -52,7 +52,7 @@ Basic SEO structure was added for a local plumbing/service-area business:
   - leaking toilet base Denver
   - wax ring replacement Denver
 
-Important: the current phone number is a placeholder: `(720) 555-0198`. The Colorado plumbing license is also a placeholder. These must be replaced before launch.
+Important: the business phone number is `(720) 717-3990`. The Colorado plumbing license is still a placeholder and must be replaced before launch.
 
 ## 3D / Visual Assets Added
 

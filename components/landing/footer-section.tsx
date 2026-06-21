@@ -54,12 +54,17 @@ export function FooterSection() {
 
               <p className="text-muted-foreground leading-relaxed mb-8 max-w-xs">
                 Toilet installation, replacement, and repair for Denver homes,
-                rentals, and property managers. Replace placeholder phone, license,
-                and review links before launch.
+                rentals, and property managers. Replace placeholder license and
+                review links before launch.
               </p>
 
               <div className="flex flex-col gap-3 text-sm text-muted-foreground mb-8">
-                <span>Phone: (720) 555-0198</span>
+                <span>
+                  Phone:{" "}
+                  <a href="tel:+17207173990" className="hover:text-foreground transition-colors">
+                    (720) 717-3990
+                  </a>
+                </span>
                 <span>Colorado plumbing license: pending</span>
                 <span>Service-area business: Denver, CO</span>
               </div>

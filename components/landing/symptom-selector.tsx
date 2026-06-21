@@ -119,15 +119,15 @@ export function SymptomSelector() {
           </div>
           <div className="bg-muted/40 border-l border-border p-7 lg:p-8 flex flex-col gap-1.5">
             {active.part && (
-              <div className="relative h-48 rounded-xl overflow-hidden border border-border mb-3 bg-gradient-to-b from-background to-muted">
+              <div className="relative h-64 rounded-xl overflow-hidden border border-border mb-3 bg-gradient-to-b from-background to-muted">
                 <ServiceModel
                   url={active.part.model}
                   label={active.part.name}
-                  targetSize={1.9}
+                  targetSize={2.3}
                   fit="max"
                   centerY
                   interactive
-                  cameraZ={4.4}
+                  cameraZ={3.9}
                   cameraY={0}
                   className="h-full w-full"
                 />
